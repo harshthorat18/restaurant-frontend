@@ -4,29 +4,25 @@ import MenuList from "./components/MenuList";
 import CartModal from "./components/CartModal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBellConcierge,
-  faCartPlus,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBellConcierge, faCartPlus } from "@fortawesome/free-solid-svg-icons";
 import "./App.css";
-//============================================================================================import section ends
+
 function App() {
   const [menu, setMenu] = useState([]);
   const [filteredMenu, setFilteredMenu] = useState([]);
   const [cart, setCart] = useState([]);
   const [cartVisible, setCartVisible] = useState(false);
-//=============================================================================================functions
- useEffect(() => {
-  axios
-    .get("https://restaurant-backend-beix.onrender.com/menu")
-    .then((res) => {
-      setMenu(res.data);
-      setFilteredMenu(res.data);
-    })
-    .catch((err) => console.log(err));
-}, []);
 
-
+  // Fetch menu data from backend
+  useEffect(() => {
+    axios
+      .get("https://restaurant-backend-beix.onrender.com/menu")
+      .then((res) => {
+        setMenu(res.data);
+        setFilteredMenu(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   const handleSearch = (query) => {
     const filtered = menu.filter((item) =>
@@ -57,31 +53,13 @@ function App() {
       table: "T1",
     };
 
-    const placeOrder = () => {
-  if (cart.length === 0) {
-    alert("Cart is empty!");
-    return;
-  }
-
-  const orderPayload = {
-    items: cart.map((item) => item.name),
-    table: "T1",
-  };
-
-  axios
-    .post("https://restaurant-backend-beix.onrender.com/order", orderPayload)
-    .then(() => {
-      alert("Order placed!");
-      setCart([]);
-      setCartVisible(false);
-    })
-    .catch((err) => {
-      console.error("Order failed:", err);
-      alert("Something went wrong");
-    });
-};
-
-
+    axios
+      .post("https://restaurant-backend-beix.onrender.com/order", orderPayload)
+      .then(() => {
+        alert("Order placed!");
+        setCart([]);
+        setCartVisible(false);
+      })
       .catch((err) => {
         console.error("Order failed:", err);
         alert("Something went wrong");
