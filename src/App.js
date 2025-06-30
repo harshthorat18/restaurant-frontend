@@ -16,15 +16,17 @@ function App() {
   const [cart, setCart] = useState([]);
   const [cartVisible, setCartVisible] = useState(false);
 //=============================================================================================functions
-  useEffect(() => {
-    axios
-      axios.get("https://restaurant-backend-beix.onrender.com/menu")
-      .then((res) => {
-        setMenu(res.data);
-        setFilteredMenu(res.data);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+ useEffect(() => {
+  axios
+    .get("https://restaurant-backend-beix.onrender.com/menu")
+    .then((res) => {
+      setMenu(res.data);
+      setFilteredMenu(res.data);
+    })
+    .catch((err) => console.log(err));
+}, []);
+
+
 
   const handleSearch = (query) => {
     const filtered = menu.filter((item) =>
@@ -56,12 +58,17 @@ function App() {
     };
 
     axios
-      .axios.post("https://restaurant-backend-beix.onrender.com/order", data)
-      .then(() => {
-        alert("Order placed!");
-        setCart([]);
-        setCartVisible(false);
-      })
+  .post("https://restaurant-backend-beix.onrender.com/order", orderPayload)
+  .then(() => {
+    alert("Order placed!");
+    setCart([]);
+    setCartVisible(false);
+  })
+  .catch((err) => {
+    console.error("Order failed:", err);
+    alert("Something went wrong");
+  });
+
       .catch((err) => {
         console.error("Order failed:", err);
         alert("Something went wrong");
