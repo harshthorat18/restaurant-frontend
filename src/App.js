@@ -57,17 +57,30 @@ function App() {
       table: "T1",
     };
 
-    axios
-  .post("https://restaurant-backend-beix.onrender.com/order", orderPayload)
-  .then(() => {
-    alert("Order placed!");
-    setCart([]);
-    setCartVisible(false);
-  })
-  .catch((err) => {
-    console.error("Order failed:", err);
-    alert("Something went wrong");
-  });
+    const placeOrder = () => {
+  if (cart.length === 0) {
+    alert("Cart is empty!");
+    return;
+  }
+
+  const orderPayload = {
+    items: cart.map((item) => item.name),
+    table: "T1",
+  };
+
+  axios
+    .post("https://restaurant-backend-beix.onrender.com/order", orderPayload)
+    .then(() => {
+      alert("Order placed!");
+      setCart([]);
+      setCartVisible(false);
+    })
+    .catch((err) => {
+      console.error("Order failed:", err);
+      alert("Something went wrong");
+    });
+};
+
 
       .catch((err) => {
         console.error("Order failed:", err);
