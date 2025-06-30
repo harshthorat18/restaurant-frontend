@@ -18,7 +18,7 @@ function App() {
 //=============================================================================================functions
   useEffect(() => {
     axios
-      .get("http://localhost:3001/menu")
+      axios.get("https://restaurant-backend-beix.onrender.com/menu")
       .then((res) => {
         setMenu(res.data);
         setFilteredMenu(res.data);
@@ -56,7 +56,7 @@ function App() {
     };
 
     axios
-      .post("http://localhost:3001/order", orderPayload)
+      .axios.post("https://restaurant-backend-beix.onrender.com/order", data)
       .then(() => {
         alert("Order placed!");
         setCart([]);
